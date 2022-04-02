@@ -34,8 +34,9 @@ while True:
         pos_x = lmList1[0][0]
         pos_y = lmList1[0][1]
 
+        x3, y3 = lmList1[3][0], lmList1[3][1]
         x4, y4 = lmList1[4][0], lmList1[4][1]
-        x6, y6 = lmList1[6][0], lmList1[6][1]
+        x5, y5 = lmList1[5][0], lmList1[5][1]
         x6, y6 = lmList1[6][0], lmList1[6][1]
         x7, y7 = lmList1[7][0], lmList1[7][1]
         x8, y8 = lmList1[8][0], lmList1[8][1]
@@ -90,11 +91,16 @@ while True:
             # ********** For E ***********
             if y4>y8 and y4>y12 and y4>y16 and y4>y20:
                 cv2.putText(img, f'E', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)            
+
+            # ********** For N ***********
+            elif x10>x4 and x4>x14 and y10<y4:
+                cv2.putText(img, f'N', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
-             # ********** For N ***********
-            elif x10>x4 and x4>x14:
-                cv2.putText(img, f'N', ((pos_x-50), (pos_y+50)),
+            # ********** For S ***********
+            elif ((y3<y7 and y3>y6) and (y4<y11 and y4>y10)):
+                cv2.putText(img, f'S', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
             # ********** For T ***********
@@ -102,10 +108,15 @@ while True:
                 cv2.putText(img, f'T', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
+            
+            
+
+            
+
 
 
 # *********** Only Index Up **********************************
-        if (fingers1[0]==1 or fingers1[0]==0) and fingers1[1]==1 and fingers1[2:] == [0, 0, 0]:
+        elif (fingers1[0]==1 or fingers1[0]==0) and fingers1[1]==1 and fingers1[2:] == [0, 0, 0]:
 
             # ********** For X ***********
             if x8>x7 and x7>x6:
