@@ -45,6 +45,7 @@ while True:
         x11, y11 = lmList1[11][0], lmList1[11][1]
         x12, y12 = lmList1[12][0], lmList1[12][1]
         x14, y14 = lmList1[14][0], lmList1[14][1]
+        x15, y15 = lmList1[15][0], lmList1[15][1]
         x16, y16 = lmList1[16][0], lmList1[16][1]
         x20, y20 = lmList1[20][0], lmList1[20][1]
 
@@ -88,10 +89,25 @@ while True:
 # *********** All Down **********************************
         if (fingers1[0:] == [0, 0, 0, 0, 0]):
 
+            # ********** For C ***********
+            if y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4>x8 and x4>x20:
+                cv2.putText(img, f'C', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+
             # ********** For E ***********
-            if y4>y8 and y4>y12 and y4>y16 and y4>y20:
+            elif y4>y8 and y4>y12 and y4>y16 and y4>y20:
                 cv2.putText(img, f'E', ((pos_x-50), (pos_y+50)),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)            
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+                        
+            # # ********** For G ***********
+            # elif y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4<x6:
+            #     cv2.putText(img, f'G', ((pos_x-50), (pos_y+50)),
+            #             cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)  
+
+            # ********** For M ***********
+            elif x15>x4 and x4<x14:
+                cv2.putText(img, f'M', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)           
 
             # ********** For N ***********
             elif x10>x4 and x4>x14 and y10<y4:
@@ -115,12 +131,17 @@ while True:
 
 
 
-# *********** Only Index Up **********************************
+# *********** Only Index Up and Maybe Thumb **********************************
         elif (fingers1[0]==1 or fingers1[0]==0) and fingers1[1]==1 and fingers1[2:] == [0, 0, 0]:
 
             # ********** For X ***********
             if x8>x7 and x7>x6:
                 cv2.putText(img, f'X', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+
+            # ********** For P ***********
+            elif y10>y4 and y4>y6:
+                cv2.putText(img, f'P', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
             # ********** For D ***********
@@ -140,10 +161,8 @@ while True:
 
 
 
-# *********** For P **********************************
-        elif y10>y4 and y4>y6:
-            cv2.putText(img, f'P', ((pos_x-50), (pos_y+50)),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+
+        
 
 
 
