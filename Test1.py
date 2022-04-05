@@ -29,12 +29,14 @@ while True:
         hand1 = hand[0]
         lmList1 = hand1['lmList']
         fingers1 = handt.fingersUp(hand1)
-        #print(fingers1)
+        # print(fingers1)
 
         pos_x = lmList1[0][0]
         pos_y = lmList1[0][1]
 
-        x3, y3 = lmList1[3][0], lmList1[3][1]
+
+        x1, y1 = lmList1[1][0], lmList1[1][1]
+        x1, y3 = lmList1[3][0], lmList1[3][1]
         x4, y4 = lmList1[4][0], lmList1[4][1]
         x5, y5 = lmList1[5][0], lmList1[5][1]
         x6, y6 = lmList1[6][0], lmList1[6][1]
@@ -51,9 +53,11 @@ while True:
 
         base= math.hypot((x9-x12), (y9-y9)) 
         perpendicular=math.hypot((x12-x12),(y9-y12)) 
-        hypotenuse=math.hypot((x9-x12),(y9-y12)) 
-        p_ratio_h=perpendicular/hypotenuse
-        theta=(math.asin(p_ratio_h))*(180/math.pi)
+        hypotenuse=math.hypot((x9-x12),(y9-y12))
+
+        if hypotenuse!=0: 
+            p_ratio_h=perpendicular/hypotenuse
+            theta=(math.asin(p_ratio_h))*(180/math.pi)
         
         # cv2.putText(img, f'{(base)} Base', (30,30),
         #                 cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
@@ -70,11 +74,23 @@ while True:
         lent2 = math.hypot((x11-x7), (y11-y7)) #distance between 11 and 7
         lent3 = math.hypot((x10-x6), (y10-y6)) #distance between 10 and 6
 
+        lent4 = math.hypot((x8-x8), (y8-y5)) #distance between 8 and 1 for G 
+        lent5 = math.hypot((x4-x8), (y4-y4)) #distance between 4 and 1 base
+        lent6 = math.hypot((x8-x1), (y8-y1)) #distance between  and 1 Hypo
+
+        # print(lent4)
+
+        theta1=150
+        if lent6!=0:
+            b_ratio_h=lent5/lent6
+            if b_ratio_h<=1:
+                theta1=(math.acos(b_ratio_h))*(180/math.pi)
+
 
         x8midx12=(x8+x12)/2
         y8midy12=(y8+y12)/2
 
-        
+        lent6 = math.hypot((x8-x4), (y8-y4)) #distance between 4 and 8         
 
         # cv2.line(img,(x8midx12,50),(x8midx12,h_cam-50),(0,0,0),5)
 
@@ -86,23 +102,29 @@ while True:
         # cv2.line(img,(x9,y9),(x12,y9),(0,0,0),5)
         # cv2.line(img,(x12,y12),(x12,y9),(0,0,0),5)
 
+        # print(y4-y8)
+        # print(y8)
+
+
+
 # *********** All Down **********************************
         if (fingers1[0:] == [0, 0, 0, 0, 0]):
 
-            # ********** For C ***********
-            if y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4>x8 and x4>x20:
-                cv2.putText(img, f'C', ((pos_x-50), (pos_y+50)),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+            # # ********** For Q ***********
+            # if y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4>x8 and x4>x20:
+            #     cv2.putText(img, f'Q', ((pos_x-50), (pos_y+50)),
+            #             cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
             # ********** For E ***********
-            elif y4>y8 and y4>y12 and y4>y16 and y4>y20:
+            if y4>y8 and y4>y12 and y4>y16 and y4>y20:
                 cv2.putText(img, f'E', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+
+                    # ********** For O ***********
+            elif (lent6<25):
+                cv2.putText(img, f'O', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
                         
-            # # ********** For G ***********
-            # elif y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4<x6:
-            #     cv2.putText(img, f'G', ((pos_x-50), (pos_y+50)),
-            #             cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)  
 
             # ********** For M ***********
             elif x15>x4 and x4<x14:
@@ -131,13 +153,25 @@ while True:
 
 
 
-# *********** Only Index Up and Maybe Thumb **********************************
+# *********** Index Up and Maybe Thumb **********************************
         elif (fingers1[0]==1 or fingers1[0]==0) and fingers1[1]==1 and fingers1[2:] == [0, 0, 0]:
 
+            
+
             # ********** For X ***********
-            if x8>x7 and x7>x6:
+            if x8>x7 and x7>x6 and y8>y7:
                 cv2.putText(img, f'X', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+
+            # ********** For L ***********
+            elif (theta1==90 or theta1-30<=90) and fingers1[0]==1:
+                cv2.putText(img, f'L', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
+
+            # ********** For G ***********
+            elif y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4<x6:
+                cv2.putText(img, f'G', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3) 
 
             # ********** For P ***********
             elif y10>y4 and y4>y6:
@@ -145,11 +179,16 @@ while True:
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
             # ********** For D ***********
-            else:
+            elif fingers1[0]==0:
                 cv2.putText(img, f'D', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
+        
 
+        # ********** For C ***********
+        elif y4>y8 and y4>y12 and y4>y16 and y4>y20 and x4-30<=x20 and x4+30>=x20 and lent6>35:
+                cv2.putText(img, f'C', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
 # *********** Only Thumb Up **********************************
         elif fingers1[0]==1 and fingers1[1:] == [0, 0, 0, 0]:
@@ -158,9 +197,12 @@ while True:
             cv2.putText(img, f'A', ((pos_x-50), (pos_y+50)),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
+   
 
-
-
+        # ********** For G ***********
+        elif lent4<=5:
+                cv2.putText(img, f'G', ((pos_x-50), (pos_y+50)),
+                        cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0), 3)
 
         
 
